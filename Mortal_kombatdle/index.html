@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+
+<body>
+    <header>
+        <h1 id="caption">Mortal Kombatdle!</h1>
+        <h2 id="caption">Guess the kharacter of the day!</h2>
+    </header>
+    <main>
+        <section id="home">
+            <input type="text" id="searchinput" placeholder="Insert character name" oninput="showSuggestions()">
+            <div id="suggestions"></div>
+            <button id="button" onclick="guess()">Submit</button>
+            <div class="container">
+            </div>
+
+        </section>
+    </main>
+
+
+</div>
+
+<div id="rows">
+
+
+    <div id="cards"> 
+        <div class="card">Character</div>
+        <div class="card">Gender</div>
+        <div class="card">Race</div>
+        <div class="card">Faction</div>
+        <div class="card">Realm</div>
+        <div class="card">Debut</div>
+    </div>
+</div>
+    <script>
+        mk1 = "Mortal Kombat (1992)"
+        mk2 = "Mortal Kombat 2"
+        mk3 = "Mortal Kombat 3"
+        mkmsz = "Mortal Kombat Mythologies. Sub-Zero"
+        mk4= "Mortal Kombat 4"
+        mksf = "Mortal Kombat: Special Forces"
+        Mkda = "Mortal Kombat: Deadly Alliance"
+        Mkd = "Mortal Kombat: Deception"
+        mka = "Mortal Kombat: Armageddon"
+        mk9 = "Mortal Kombat (2011)"
+        mkx = "Mortal Kombat X"
+        mk11 = "Mortal Kombat 11"
+        mkone = "Mortal Kombat 1"
+    /* "Template": {Name: "", Gender: "", Race: "", Faction: "", Realm: "", Debut: }, */
+        const characterDatabase = {
+            "Sub-Zero": { Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: "Mortal Kombat"},
+            "Goro": {Name: "Sub-Zero", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld, Earthrealm", Debut: "Mortal Kombat" },
+            "Johnny Cage": {Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: "Mortal Kombat" },
+            "Kano": {Name: "Sub-Zero", Gender: "Male", Race: "Human, Cyborg", Faction: "Black Dragon", Realm: "Earthrealm", Debut: "Mortal Kombat" },
+            "Liu Kang": {Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "White Lotus", Realm: "Earthrealm", Debut: "Mortal Kombat" },
+            "Scorpion": {Name: "Scorpion", Gender: "Male", Race: "Human, Revenant", Faction: "Shirai Ryu", Realm: "Earthrealm, Netherrealm", Debut: "Mortal Kombat"},
+            "Raiden": {Name: "Raiden", Gender: "Male", Race: "God", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Debut: "Mortal kombat"},
+            "Reptile": {Name: "Reptile", Gender: "Male", Race: "Zaterran", Faction: "Outworld Empire", Realm: "Zaterran", Debut: "Mortal Kombat"},
+            "Shang Tsung": {Name: "Shang Tsung", Gender: "Male", Race: "Human", Faction: "Outworld Empire", Realm: "Earthrealm", Debut: "Mortal Kombat"},
+            "Sonya Blade": {Name: "Sonya Blade", Gender: "Female", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: mk1},
+            "Baraka": {Name: "Baraka", Gender: "Male", Race: "Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
+            "Jax": {Name: "Jax", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: mk2},
+            "Jade": {Name: "Jade", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire", Realm: "Edenia", Debut: mk2},
+            "Kintaro": {Name: "Kintaro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
+            "Kitana": {Name: "Kitana", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Debut: mk2},
+            "Kung Lao": {Name: "Kung Lao", Gender: "Male", Race: "Human", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Debut: mk2},
+            "Mileena": {Name: "Mileena", Gender: "Female", Race: "Edenian, Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
+            "Shao Kahn": {Name: "Shao Kahn", Gender: "Male", Race: "Unknown", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
+            "Smoke": {Name: "Smoke", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk2},
+            "Noob Saibot": {Name: "Noob Saibot", Gender: "Male", Race: "Revenant", Faction: "Brotherhood of Shadow", Realm: "Netherrealm", Debut: mk2},
+            "Cyrax": {Name: "Cyrax", Gender: "Male", Race: "Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk3},
+            "Kabal": {Name: "Kabal", Gender: "Male", Race: "Human", Faction: "Black Dragon, Earthrealm Defenders", Realm: "Earthrealm", Debut: mk3},
+            "Motaro": {Name: "Motaro", Gender: "Male", Race: "Centaurian", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
+            "Nightwolf": {Name: "Nightwolf", Gender: "Male", Race: "Human", Faction: "Earhrealm Defenders", Realm: "Earhrealm", Debut: mk3},
+            "Sektor": {Name: "Sektor", Gender: "Male", Race: "Human, Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk3},
+            "Sheeva": {Name: "Sheeva", Gender: "Female", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
+            "Ermac": {Name: "Ermac", Gender: "Male", Race: "Construct", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
+        };
+
+        function guess(character) {
+            var input_value = document.getElementById("searchinput").value;
+            var container = document.getElementById('cards');
+            const characterObject = characterDatabase[input_value];
+            var correct_counter = 0
+            let guess = characterDatabase[input_value]
+            console.log(input_value)
+            console.log(guess)
+            const new_row = document.createElement("div")
+            for (let key in guess) {
+                if (guess[key] == answer_data[key]) {
+                    const square = document.createElement('div');
+                    square.classList.add('square');
+                    square.style.backgroundColor = "green";
+                    const textNode = document.createTextNode(guess[key]);
+                    square.appendChild(textNode);
+
+                    container.appendChild(square);
+                    correct_counter += 1;
+                } else {
+                    const guessParts = guess[key].split(",").map(part => part.trim());
+                    const answerParts = answer_data[key].split(",").map(part => part.trim());
+                    const partialMatch = guessParts.some(part => answerParts.includes(part));
+
+                    if (partialMatch) {
+                        // Partial match
+                        const square = document.createElement('div');
+                        square.classList.add('square');
+                        square.style.backgroundColor = "yellow";
+                        const textNode = document.createTextNode(guess[key]);
+                        square.appendChild(textNode);
+                        container.appendChild(square);
+                        console.log("Partial answer was found");
+                    } else {
+                        // Completely incorrect guess
+                        const square = document.createElement('div');
+                        square.classList.add('square');
+                        square.style.backgroundColor = "red";
+                        const textNode = document.createTextNode(guess[key]);
+                        square.appendChild(textNode);
+                        container.appendChild(square);
+                        console.log("Red answer (no match)");
+                    }
+                }
+            }
+            console.log(correct_counter)
+            if (correct_counter === 6) {
+                var audio = new Audio("yippee-tbh.mp3")
+                audio.play()
+                alert(`You were right. The answer was ${randomKey} and you guessed ${input_value}`)
+                correct_counter = 0
+            }
+        }
+
+        const keys = Object.keys(characterDatabase);
+        const randomIndex = Math.floor(Math.random() * keys.length);
+        const randomKey = keys[randomIndex];
+        let answer_data = characterDatabase[randomKey]
+       /* console.log(randomKey)
+        console.log(answer_data) */
+
+
+
+
+
+
+        function showSuggestions() {
+            const input = document.getElementById('searchinput').value.toLowerCase();
+            const suggestionsDiv = document.getElementById('suggestions');
+
+            // Get all keys (character names) from the dictionary
+            const keys = Object.keys(characterDatabase);
+
+            // Filter the keys based on the input value
+            const filteredKeys = keys.filter(key => key.toLowerCase().includes(input));
+
+            // Clear previous suggestions
+            suggestionsDiv.innerHTML = '';
+
+            // Show matching suggestions
+            if (filteredKeys.length > 0 && input !== '') {
+                suggestionsDiv.style.display = 'block';  // Show suggestion list
+                filteredKeys.forEach(key => {
+                    const suggestionDiv = document.createElement('div');
+                    suggestionDiv.textContent = key;
+                    suggestionDiv.onclick = function () {
+                        document.getElementById('searchinput').value = key; // Set input value to the selected suggestion
+                        suggestionsDiv.style.display = 'none';  // Hide suggestion list after selection
+                    };
+                    suggestionsDiv.appendChild(suggestionDiv);
+                });
+            } else {
+                suggestionsDiv.style.display = 'none';  // Hide suggestion list if no match
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const suggestionsDiv = document.getElementById('suggestions');
+            const inputField = document.getElementById('searchinput');
+
+            if (!inputField.contains(event.target) && !suggestionsDiv.contains(event.target)) {
+                suggestionsDiv.style.display = 'none';  // Hide suggestions if clicked outside
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

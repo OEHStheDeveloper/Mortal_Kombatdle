@@ -4,21 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mortal Kombatdle</title>
     <link rel="stylesheet" href="styles.css"> 
 </head>
 
 <body>
     <header>
-        <h1 id="caption">Mortal Kombatdle!</h1>
+
+        <h1 id="title">Mortal Kombatdle</h1>
         <h2 id="caption">Guess the kharacter of the day!</h2>
+
     </header>
     <main>
         <section id="home">
+
             <input type="text" id="searchinput" placeholder="Insert character name" oninput="showSuggestions()">
+
             <div id="suggestions"></div>
+
             <button id="button" onclick="guess()">Submit</button>
+
             <div class="container">
+
             </div>
 
         </section>
@@ -28,17 +35,19 @@
 </div>
 
 <div id="rows">
-
-
     <div id="cards"> 
+
         <div class="card">Character</div>
         <div class="card">Gender</div>
         <div class="card">Race</div>
         <div class="card">Faction</div>
         <div class="card">Realm</div>
+        <div class="card">Color</div>
         <div class="card">Debut</div>
+        
     </div>
 </div>
+
     <script>
         mk1 = "Mortal Kombat (1992)"
         mk2 = "Mortal Kombat 2"
@@ -53,35 +62,38 @@
         mkx = "Mortal Kombat X"
         mk11 = "Mortal Kombat 11"
         mkone = "Mortal Kombat 1"
-    /* "Template": {Name: "", Gender: "", Race: "", Faction: "", Realm: "", Debut: }, */
+
+    /* "Template": {Name: "", Gender: "", Race: "", Faction: "", Realm: "", Color: "", Debut: }, */
         const characterDatabase = {
-            "Sub-Zero": { Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: "Mortal Kombat"},
-            "Goro": {Name: "Goro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld, Earthrealm", Debut: "Mortal Kombat" },
-            "Johnny Cage": {Name: "Johnny Cage", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: "Mortal Kombat" },
-            "Kano": {Name: "Kano", Gender: "Male", Race: "Human, Cyborg", Faction: "Black Dragon", Realm: "Earthrealm", Debut: "Mortal Kombat" },
-            "Liu Kang": {Name: "Liu Kang", Gender: "Male", Race: "Human", Faction: "White Lotus", Realm: "Earthrealm", Debut: "Mortal Kombat" },
-            "Scorpion": {Name: "Scorpion", Gender: "Male", Race: "Human, Revenant", Faction: "Shirai Ryu", Realm: "Earthrealm, Netherrealm", Debut: "Mortal Kombat"},
-            "Raiden": {Name: "Raiden", Gender: "Male", Race: "God", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Debut: "Mortal kombat"},
-            "Reptile": {Name: "Reptile", Gender: "Male", Race: "Zaterran", Faction: "Outworld Empire", Realm: "Zaterran", Debut: "Mortal Kombat"},
-            "Shang Tsung": {Name: "Shang Tsung", Gender: "Male", Race: "Human", Faction: "Outworld Empire", Realm: "Earthrealm", Debut: "Mortal Kombat"},
-            "Sonya Blade": {Name: "Sonya Blade", Gender: "Female", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: mk1},
-            "Baraka": {Name: "Baraka", Gender: "Male", Race: "Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
-            "Jax": {Name: "Jax", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Debut: mk2},
-            "Jade": {Name: "Jade", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire", Realm: "Edenia", Debut: mk2},
-            "Kintaro": {Name: "Kintaro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
-            "Kitana": {Name: "Kitana", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Debut: mk2},
-            "Kung Lao": {Name: "Kung Lao", Gender: "Male", Race: "Human", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Debut: mk2},
-            "Mileena": {Name: "Mileena", Gender: "Female", Race: "Edenian, Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
-            "Shao Kahn": {Name: "Shao Kahn", Gender: "Male", Race: "Unknown", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk2},
-            "Smoke": {Name: "Smoke", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk2},
-            "Noob Saibot": {Name: "Noob Saibot", Gender: "Male", Race: "Revenant", Faction: "Brotherhood of Shadow", Realm: "Netherrealm", Debut: mk2},
-            "Cyrax": {Name: "Cyrax", Gender: "Male", Race: "Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk3},
-            "Kabal": {Name: "Kabal", Gender: "Male", Race: "Human", Faction: "Black Dragon, Earthrealm Defenders", Realm: "Earthrealm", Debut: mk3},
-            "Motaro": {Name: "Motaro", Gender: "Male", Race: "Centaurian", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
-            "Nightwolf": {Name: "Nightwolf", Gender: "Male", Race: "Human", Faction: "Earhrealm Defenders", Realm: "Earhrealm", Debut: mk3},
-            "Sektor": {Name: "Sektor", Gender: "Male", Race: "Human, Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Debut: mk3},
-            "Sheeva": {Name: "Sheeva", Gender: "Female", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
-            "Ermac": {Name: "Ermac", Gender: "Male", Race: "Construct", Faction: "Outworld Empire", Realm: "Outworld", Debut: mk3},
+            "Sub-Zero": { Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Blue", Debut: mk1},
+            "Goro": {Name: "Goro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld, Earthrealm", Color: "Black, Red", Debut: mk1 },
+            "Johnny Cage": {Name: "Johnny Cage", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black", Debut: mk1 },
+            "Kano": {Name: "Kano", Gender: "Male", Race: "Human, Cyborg", Faction: "Black Dragon", Realm: "Earthrealm", Color: "White", Debut: mk1 },
+            "Liu Kang": {Name: "Liu Kang", Gender: "Male", Race: "Human", Faction: "White Lotus", Realm: "Earthrealm", Color: "Black, Red", Debut: mk1 },
+            "Scorpion": {Name: "Scorpion", Gender: "Male", Race: "Human, Revenant", Faction: "Shirai Ryu", Realm: "Earthrealm, Netherrealm", Color: "Yellow", Debut: mk1},
+            "Raiden": {Name: "Raiden", Gender: "Male", Race: "God", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Color: "White, Blue", Debut: mk1},
+            "Reptile": {Name: "Reptile", Gender: "Male", Race: "Zaterran", Faction: "Outworld Empire", Realm: "Zaterran", Color: "Green", Debut: mk1},
+            "Shang Tsung": {Name: "Shang Tsung", Gender: "Male", Race: "Human", Faction: "Outworld Empire", Realm: "Earthrealm", Color: "Red, Green, Black", Debut: mk1},
+            "Sonya Blade": {Name: "Sonya Blade", Gender: "Female", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black, Blue, Green", Debut: mk1},
+            "Baraka": {Name: "Baraka", Gender: "Male", Race: "Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Color: "White", Debut: mk2},
+            "Jax": {Name: "Jax", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black, Purple", Debut: mk2},
+            "Jade": {Name: "Jade", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Color: "Green", Debut: mk2},
+            "Kintaro": {Name: "Kintaro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Orange", Debut: mk2},
+            "Kitana": {Name: "Kitana", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Color: "Blue", Debut: mk2},
+            "Kung Lao": {Name: "Kung Lao", Gender: "Male", Race: "Human", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Color: "Black", Debut: mk2},
+            "Mileena": {Name: "Mileena", Gender: "Female", Race: "Edenian, Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Pink", Debut: mk2},
+            "Shao Kahn": {Name: "Shao Kahn", Gender: "Male", Race: "Unknown", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red, Silver", Debut: mk2},
+            "Smoke": {Name: "Smoke", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Grey", Debut: mk2},
+            "Noob Saibot": {Name: "Noob Saibot", Gender: "Male", Race: "Revenant", Faction: "Brotherhood of Shadow", Realm: "Netherrealm", Color: "Black", Debut: mk2},
+            "Cyrax": {Name: "Cyrax", Gender: "Male", Race: "Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Yellow", Debut: mk3},
+            "Kabal": {Name: "Kabal", Gender: "Male", Race: "Human", Faction: "Black Dragon, Earthrealm Defenders", Realm: "Earthrealm", Color: "Grey", Debut: mk3},
+            "Motaro": {Name: "Motaro", Gender: "Male", Race: "Centaurian", Faction: "Outworld Empire", Realm: "Outworld", Color: "Brown", Debut: mk3},
+            "Nightwolf": {Name: "Nightwolf", Gender: "Male", Race: "Human", Faction: "Earhrealm Defenders", Realm: "Earhrealm", Color: "Blue, Black", Debut: mk3},
+            "Sektor": {Name: "Sektor", Gender: "Male", Race: "Human, Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Red", Debut: mk3},
+            "Sheeva": {Name: "Sheeva", Gender: "Female", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red", Debut: mk3},
+            "Ermac": {Name: "Ermac", Gender: "Male", Race: "Construct", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red, Black", Debut: mk3},
+            "Rain": {Name: "Rain", Gender: "Male", Race: "Edenian, God", Faction: "Outworld Empire", Realm: "Edenia", Color: "Purple", Debut: mk3},
+            "Stryker": {Name: "Stryker", Gender: "Male", Race: "Human", Faction: "Earthrealm Defenders", Realm: "Earthrealm", Color: "Black, Blue", Debut: mk3},
         };
 
         function guess(character) {
@@ -130,7 +142,7 @@
                 }
             }
             console.log(correct_counter)
-            if (correct_counter === 6) {
+            if (correct_counter === 7) {
                 var audio = new Audio("yippee-tbh.mp3")
                 audio.play()
                 alert(`You were right. The answer was ${randomKey} and you guessed ${input_value}`)

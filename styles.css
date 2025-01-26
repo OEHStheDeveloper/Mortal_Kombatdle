@@ -5,15 +5,34 @@
  
  */
 
+#title {
+    text-align: center;
+    font-size: 96px;
+    margin: 0px;
+    text-shadow: 
+        0px 0px 0 #3E1B00, 
+       0px 0px 0 #3E1B00, 
+        0px 5px 0 #3E1B00, 
+       0px 0px 0 #3E1B00;
+       transition: 0.2s;
+}
 
-
+@font-face {
+    font-family: 'mkx';
+    src: url('mkx.ttf');
+}
 
 body {
-    background-color: brown;
-    margin: 0px;
-    height: 100vh;
-    overflow: hidden;
-    padding: 0px;
+    background-image: url(mortal-kombat-11-ultimate-j7.jpg);
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: mkx, sans-serif;
+    font-size: 32px;
+    color: white;
+    padding-bottom: 3000px;
 }
 
 #searchinput {
@@ -36,7 +55,7 @@ body {
     display:flex;
     flex-wrap: wrap;
     gap: 18px;
-    max-width: 738px;
+    max-width: 864px;
     margin: auto;
 }
 
@@ -68,19 +87,44 @@ body {
 .square {
     background-color: white;
     border: 4px solid rgba(0, 0, 0, 1);
-    border-radius: 10px;
+    border-radius: 20px;
     height: 100px;
     width: 100px;
+
+    /* Add these properties for centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    font-size: 24px;
+    transition: transform .2s;
+}
+
+.square:hover, .card:hover {
+    transform: scale(1.25); 
+}
+
+#caption:hover, #title:hover {
+    transform: scale(1.1); 
 }
 
 .card {
-    background-color: white;
+    /*background-color: white; 
     border: 4px solid rgba(0, 0, 0, 1);
-    border-radius: 10px;
-    height: 100px;
+    border-radius: 15px;
+    */
+    border: 4px solid rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    font-size: 18px;
+    height: 40px;
     width: 100px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    font-size: 24px;
+    transition: transform .2s;
 }
 
 #caption {
@@ -89,6 +133,7 @@ body {
     text-align: center;  /* Horizontally center the text */
     width: 50%; /* Optional: Set a width if needed */
     padding: 20px; /* Optional: Add some padding */
+    transition: transform .2s;
 }
 
 #category-container {
@@ -104,3 +149,6 @@ body {
     text-align: center;
 }
 
+#text {
+
+}

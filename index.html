@@ -6,49 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mortal Kombatdle</title>
     <link rel="stylesheet" href="styles.css"> 
+    <link rel="icon" type="image/x-icon" href="mortal_kombat_logo_color.png">
 </head>
 
 <body>
-    <header>
+    <div class="site-container">
+    <div class="header">
+        <div class="title-container">
+        <img class="logo"src="mkdle-logo.3.png">
+        </div>
+        <h2 id="caption">Guess the character of the day!</h2>
+    </div>
+    <div class="search-container">
 
-        <h1 id="title">Mortal Kombatdle</h1>
-        <h2 id="caption">Guess the kharacter of the day!</h2>
-
-    </header>
-    <main>
-        <section id="home">
-
-            <input type="text" id="searchinput" placeholder="Insert character name" oninput="showSuggestions()">
-
+            <input type="text" id="searchinput" placeholder="Insert character name..." oninput="showSuggestions()">
+            <button id="button" onclick="guess()">Finish him!</button>
             <div id="suggestions"></div>
 
-            <button id="button" onclick="guess()">Submit</button>
-
-            <div class="container">
-
-            </div>
-
-        </section>
-    </main>
-
-
-</div>
+    </div>
 
 <div id="rows">
     <div id="cards"> 
 
-        <div class="card">Character</div>
-        <div class="card">Gender</div>
-        <div class="card">Race</div>
-        <div class="card">Faction</div>
-        <div class="card">Realm</div>
-        <div class="card">Color</div>
-        <div class="card">Debut</div>
+        <div id="character" class="card">Character</div>
+        <div id="gender" class="card tooltip expand" data-title="Male, female">
+            Gender
+        </div>
+        <div id="race" class="card tooltip expand" data-title="Human, god, tarkatan..">Species</div>
+        <div id="faction" class="card tooltip expand" data-title="White lotus, earthrealm defenders, outworld empire..">Faction</div>
+        <div id="realm" class="card tooltip expand" data-title="Earthrealm, Outworld, Edenia..">Realm</div>
+        <div id="color" class="card tooltip expand" data-title="Lawful good, true neutral, chaotic evil..">Alignment</div>
+        <div id="debut" class="card tooltip expand" data-title="Mortal Kombat 1 (1997), Mortal kombat 2..">Debut</div>
         
     </div>
+
+    <div id="answer-container" class="answer-container"></div>
+
+<div class="color-test style: align-items: center;">
+
+
+<div style="width: 100px; height: 100px; background-color: rgb(211, 23, 23); margin-bottom: 24px;"> </div>
+<div style="width: 100px; height: 100px; background-color: rgb(255, 153, 0);"> </div>
+</div>
+
+ 
 </div>
 
     <script>
+        
         mk1 = "Mortal Kombat (1992)"
         mk2 = "Mortal Kombat 2"
         mk3 = "Mortal Kombat 3"
@@ -63,58 +68,79 @@
         mk11 = "Mortal Kombat 11"
         mkone = "Mortal Kombat 1"
 
-    /* "Template": {Name: "", Gender: "", Race: "", Faction: "", Realm: "", Color: "", Debut: }, */
+    /* "Template": {Name: "", Gender: "", Race: "", Faction: "", Realm: "", Alignment: "", Debut: }, */
         const characterDatabase = {
-            "Sub-Zero": { Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Blue", Debut: mk1},
-            "Goro": {Name: "Goro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld, Earthrealm", Color: "Black, Red", Debut: mk1 },
-            "Johnny Cage": {Name: "Johnny Cage", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black", Debut: mk1 },
-            "Kano": {Name: "Kano", Gender: "Male", Race: "Human, Cyborg", Faction: "Black Dragon", Realm: "Earthrealm", Color: "White", Debut: mk1 },
-            "Liu Kang": {Name: "Liu Kang", Gender: "Male", Race: "Human", Faction: "White Lotus", Realm: "Earthrealm", Color: "Black, Red", Debut: mk1 },
-            "Scorpion": {Name: "Scorpion", Gender: "Male", Race: "Human, Revenant", Faction: "Shirai Ryu", Realm: "Earthrealm, Netherrealm", Color: "Yellow", Debut: mk1},
-            "Raiden": {Name: "Raiden", Gender: "Male", Race: "God", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Color: "White, Blue", Debut: mk1},
-            "Reptile": {Name: "Reptile", Gender: "Male", Race: "Zaterran", Faction: "Outworld Empire", Realm: "Zaterran", Color: "Green", Debut: mk1},
-            "Shang Tsung": {Name: "Shang Tsung", Gender: "Male", Race: "Human", Faction: "Outworld Empire", Realm: "Earthrealm", Color: "Red, Green, Black", Debut: mk1},
-            "Sonya Blade": {Name: "Sonya Blade", Gender: "Female", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black, Blue, Green", Debut: mk1},
-            "Baraka": {Name: "Baraka", Gender: "Male", Race: "Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Color: "White", Debut: mk2},
-            "Jax": {Name: "Jax", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Color: "Black, Purple", Debut: mk2},
-            "Jade": {Name: "Jade", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Color: "Green", Debut: mk2},
-            "Kintaro": {Name: "Kintaro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Orange", Debut: mk2},
-            "Kitana": {Name: "Kitana", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Color: "Blue", Debut: mk2},
-            "Kung Lao": {Name: "Kung Lao", Gender: "Male", Race: "Human", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Color: "Black", Debut: mk2},
-            "Mileena": {Name: "Mileena", Gender: "Female", Race: "Edenian, Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Pink", Debut: mk2},
-            "Shao Kahn": {Name: "Shao Kahn", Gender: "Male", Race: "Unknown", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red, Silver", Debut: mk2},
-            "Smoke": {Name: "Smoke", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Grey", Debut: mk2},
-            "Noob Saibot": {Name: "Noob Saibot", Gender: "Male", Race: "Revenant", Faction: "Brotherhood of Shadow", Realm: "Netherrealm", Color: "Black", Debut: mk2},
-            "Cyrax": {Name: "Cyrax", Gender: "Male", Race: "Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Yellow", Debut: mk3},
-            "Kabal": {Name: "Kabal", Gender: "Male", Race: "Human", Faction: "Black Dragon, Earthrealm Defenders", Realm: "Earthrealm", Color: "Grey", Debut: mk3},
-            "Motaro": {Name: "Motaro", Gender: "Male", Race: "Centaurian", Faction: "Outworld Empire", Realm: "Outworld", Color: "Brown", Debut: mk3},
-            "Nightwolf": {Name: "Nightwolf", Gender: "Male", Race: "Human", Faction: "Earhrealm Defenders", Realm: "Earhrealm", Color: "Blue, Black", Debut: mk3},
-            "Sektor": {Name: "Sektor", Gender: "Male", Race: "Human, Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Color: "Red", Debut: mk3},
-            "Sheeva": {Name: "Sheeva", Gender: "Female", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red", Debut: mk3},
-            "Ermac": {Name: "Ermac", Gender: "Male", Race: "Construct", Faction: "Outworld Empire", Realm: "Outworld", Color: "Red, Black", Debut: mk3},
-            "Rain": {Name: "Rain", Gender: "Male", Race: "Edenian, God", Faction: "Outworld Empire", Realm: "Edenia", Color: "Purple", Debut: mk3},
-            "Stryker": {Name: "Stryker", Gender: "Male", Race: "Human", Faction: "Earthrealm Defenders", Realm: "Earthrealm", Color: "Black, Blue", Debut: mk3},
+            "sub-zero": { Name: "Sub-Zero", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Alignment: "Good", Debut: mk1},
+            "goro": {Name: "Goro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld, Earthrealm", Alignment: "Evil", Debut: mk1 },
+            "johnny cage": {Name: "Johnny Cage", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Alignment: "Good", Debut: mk1 },
+            "kano": {Name: "Kano", Gender: "Male", Race: "Human, Cyborg", Faction: "Black Dragon", Realm: "Earthrealm", Alignment: "Evil", Debut: mk1 },
+            "liu kang": {Name: "Liu Kang", Gender: "Male", Race: "Human", Faction: "White Lotus", Realm: "Earthrealm", Alignment: "Good, Unwillingly Evil", Debut: mk1 },
+            "scorpion": {Name: "Scorpion", Gender: "Male", Race: "Human, Revenant", Faction: "Shirai Ryu", Realm: "Earthrealm, Netherrealm", Alignment: "Good, Neutral", Debut: mk1},
+            "raiden": {Name: "Raiden", Gender: "Male", Race: "God", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Alignment: "Good, Neutral", Debut: mk1},
+            "reptile": {Name: "Reptile", Gender: "Male", Race: "Zaterran", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Neutral", Debut: mk1},
+            "shang tsung": {Name: "Shang Tsung", Gender: "Male", Race: "Human", Faction: "Outworld Empire", Realm: "Earthrealm", Alignment: "Evil", Debut: mk1},
+            "sonya blade": {Name: "Sonya Blade", Gender: "Female", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Alignment: "Good", Debut: mk1},
+            "baraka": {Name: "Baraka", Gender: "Male", Race: "Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Evil, Neutral", Debut: mk2},
+            "jax": {Name: "Jax", Gender: "Male", Race: "Human", Faction: "Special Forces", Realm: "Earthrealm", Alignment: "Good", Debut: mk2},
+            "jade": {Name: "Jade", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Alignment: "Good, Unwillingly Evil", Debut: mk2},
+            "kintaro": {Name: "Kintaro", Gender: "Male", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Neutral", Debut: mk2},
+            "kitana": {Name: "Kitana", Gender: "Female", Race: "Edenian", Faction: "Outworld Empire, Earthrealm Defenders", Realm: "Edenia", Alignment: "Good, Neutral, Unwillingly Evil", Debut: mk2},
+            "kung lao": {Name: "Kung Lao", Gender: "Male", Race: "Human", Faction: "White Lotus, Earthrealm Defenders", Realm: "Earthrealm", Alignment: "Good, Unwillingly Evil", Debut: mk2},
+            "mileena": {Name: "Mileena", Gender: "Female", Race: "Edenian, Tarkatan", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Evil", Debut: mk2},
+            "shao kahn": {Name: "Shao Kahn", Gender: "Male", Race: "Unknown", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Evil", Debut: mk2},
+            "smoke": {Name: "Smoke", Gender: "Male", Race: "Human", Faction: "Lin Kuei", Realm: "Earthrealm", Alignment: "Good, Unwillingly Evil", Debut: mk2},
+            "noob saibot": {Name: "Noob Saibot", Gender: "Male", Race: "Revenant", Faction: "Brotherhood of Shadow", Realm: "Netherrealm", Alignment: "Evil, Neutral", Debut: mk2},
+            "cyrax": {Name: "Cyrax", Gender: "Male", Race: "Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Alignment: "Good", Debut: mk3},
+            "kabal": {Name: "Kabal", Gender: "Male", Race: "Human", Faction: "Black Dragon, Earthrealm Defenders", Realm: "Earthrealm", Alignment: "Good, Neutral, Unwillingly Evil", Debut: mk3},
+            "motaro": {Name: "Motaro", Gender: "Male", Race: "Centaurian", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Evil", Debut: mk3},
+            "nightwolf": {Name: "Nightwolf", Gender: "Male", Race: "Human", Faction: "Earhrealm Defenders", Realm: "Earhrealm", Alignment: "Good, Unwillingly Evil", Debut: mk3},
+            "sektor": {Name: "Sektor", Gender: "Male", Race: "Human, Cyborg", Faction: "Lin Kuei", Realm: "Earthrealm", Alignment: "Evil", Debut: mk3},
+            "sheeva": {Name: "Sheeva", Gender: "Female", Race: "Shokan", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Neutral", Debut: mk3},
+            "ermac": {Name: "Ermac", Gender: "Male", Race: "Construct", Faction: "Outworld Empire", Realm: "Outworld", Alignment: "Neutral", Debut: mk3},
+            "rain": {Name: "Rain", Gender: "Male", Race: "Edenian, God", Faction: "Outworld Empire", Realm: "Edenia", Alignment: "Evil", Debut: mk3},
+            "stryker": {Name: "Stryker", Gender: "Male", Race: "Human", Faction: "Earthrealm Defenders", Realm: "Earthrealm", Alignment: "Good, Unwillingly Evil", Debut: mk3},
         };
 
+        const banned_list = []
+        let correct_counter = 0
+        let victory = false
         function guess(character) {
-            var input_value = document.getElementById("searchinput").value;
-            var container = document.getElementById('cards');
-            const characterObject = characterDatabase[input_value];
-            var correct_counter = 0
-            let guess = characterDatabase[input_value]
+            let correct_counter = 0
+            var raw_input_value = document.getElementById("searchinput").value;
+            var input_value = raw_input_value.toLowerCase()
             console.log(input_value)
-            console.log(guess)
+            /* var container = document.getElementById('answer-container'); */
+            var answer_container = document.getElementById('answer-container');
+            var container = document.createElement("div")
+            container.className = "square-container"
+            const characterObject = characterDatabase[input_value];
+            let guess = characterDatabase[input_value]
+           /* console.log(input_value)
+            console.log(guess) */
             const new_row = document.createElement("div")
+            if (banned_list.includes(input_value)) {
+                console.log("Error: Guess can't be made due to it already being guessed")
+            }  else if (!(input_value in characterDatabase)) {
+                console.log("Error: character name is not in database")
+            }
+            else {
+                //answer_container.appendChild(container)
+                answer_container.prepend(container)
             for (let key in guess) {
                 if (guess[key] == answer_data[key]) {
                     const square = document.createElement('div');
                     square.classList.add('square');
-                    square.style.backgroundColor = "green";
+                    square.style.backgroundColor = "rgb(0, 209, 17)";
+                    correct_counter += 1;
                     const textNode = document.createTextNode(guess[key]);
                     square.appendChild(textNode);
-
+                    /*
+                    square.addEventListener("animationend", () => {
+                    alert("animation over!!")
+                   
+        });
+        */
                     container.appendChild(square);
-                    correct_counter += 1;
                 } else {
                     const guessParts = guess[key].split(",").map(part => part.trim());
                     const answerParts = answer_data[key].split(",").map(part => part.trim());
@@ -124,7 +150,7 @@
                         // Partial match
                         const square = document.createElement('div');
                         square.classList.add('square');
-                        square.style.backgroundColor = "yellow";
+                        square.style.backgroundColor = "rgb(255, 153, 0)";
                         const textNode = document.createTextNode(guess[key]);
                         square.appendChild(textNode);
                         container.appendChild(square);
@@ -141,27 +167,98 @@
                     }
                 }
             }
-            console.log(correct_counter)
+        }
+
+            // console.log(correct_counter)
             if (correct_counter === 7) {
-                var audio = new Audio("yippee-tbh.mp3")
-                audio.play()
-                alert(`You were right. The answer was ${randomKey} and you guessed ${input_value}`)
+
+                victory = true;
+                console.log("victory pending...")
+                correct_counter = 0
+            } else {
                 correct_counter = 0
             }
-        }
+
+            if (banned_list.includes(input_value)) {
+               // console.log("The banned list already has the inputted value")
+            }
+            else if (input_value in characterDatabase)
+            {
+                banned_list.push(input_value)
+               // console.log(banned_list)
+            }
+            else {
+                //console.log("Value is not equal to a name in the database")
+            }
+            animatesquares(container)
+            //correct_counter = 0;
+        }    
+
+    async function animatesquares(container_parameter) {
+
+    const squares = document.querySelectorAll(".square");
+
+    const container_children = container_parameter.children
+
+    //let correct_counter = 0    
+
+    for (const anim_square of container_children) {
+        console.log(anim_square);
+
+        // Reset animation
+        anim_square.style.animation = "none";
+        anim_square.offsetHeight; // Trigger reflow
+
+        // Apply animation again
+        anim_square.style.animation = "scale 0.5s forwards";
+
+        await new Promise(resolve => {
+            anim_square.addEventListener("animationend", () => {
+                resolve()
+
+                //afteranimation(anim_square)
+            }, { once: true });
+           
+        });
+    }
+    console.log(correct_counter)
+    if (victory === true) {
+        alert("You win!")
+    } else {
+        correct_counter === 0;
+    }
+
+    /*
+    correct_counter = 0;
+    console.log(correct_counter)
+    */
+}
+
 
         const keys = Object.keys(characterDatabase);
         const randomIndex = Math.floor(Math.random() * keys.length);
         const randomKey = keys[randomIndex];
+        console.log(randomKey)
         let answer_data = characterDatabase[randomKey]
+
+
+
        /* console.log(randomKey)
         console.log(answer_data) */
+/*
 
+        function afteranimation(anim_square_parameter) {
+            if (anim_square_parameter.style.backgroundColor === "rgb(0, 209, 17)") {
+            console.log("The square is right")
+            correct_counter += 1;
+        }
+            console.log(correct_counter)
+            if (correct_counter === 7) {
+                console.log("YOU WIN")
+            }
+        }
 
-
-
-
-
+*/
         function showSuggestions() {
             const input = document.getElementById('searchinput').value.toLowerCase();
             const suggestionsDiv = document.getElementById('suggestions');
@@ -179,13 +276,21 @@
             if (filteredKeys.length > 0 && input !== '') {
                 suggestionsDiv.style.display = 'block';  // Show suggestion list
                 filteredKeys.forEach(key => {
+
+                   // console.log(key)
                     const suggestionDiv = document.createElement('div');
-                    suggestionDiv.textContent = key;
+                    if (banned_list.includes(key)) {
+                        console.log("This suggestion shouldn't be present!")
+                    } else {
+                        suggestionDiv.textContent = key;
                     suggestionDiv.onclick = function () {
-                        document.getElementById('searchinput').value = key; // Set input value to the selected suggestion
-                        suggestionsDiv.style.display = 'none';  // Hide suggestion list after selection
+                    document.getElementById('searchinput').value = key;
+                    guess(key)
+                    suggestionsDiv.style.display = 'none';  // Hide suggestion list after selection
                     };
                     suggestionsDiv.appendChild(suggestionDiv);
+                    }
+
                 });
             } else {
                 suggestionsDiv.style.display = 'none';  // Hide suggestion list if no match
@@ -202,7 +307,8 @@
         });
 
     </script>
-
+</div>
+</div>
 </body>
 
 </html>
